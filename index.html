@@ -162,20 +162,58 @@
     <div class="placeholder">Future write-ups on customer service, sales, and AI-driven marketing will live here.</div>
 
     <div class="section-label">Get In Touch</div>
-    <form action="https://formspree.io/f/xbgjrdbr" method="POST" style="background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:24px;">
-    <input type="hidden" name="_next" value="https://hope-odjonodia.github.io/thank-you.html">
- 
-      <label for="name" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Your name</label>
-      <input type="text" id="name" name="name" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;">
+  <form id="contact-form" action="https://formspree.io/f/xbgjrdbr" method="POST" style="background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:24px;">
+  <label for="name" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Your name</label>
+  <input type="text" id="name" name="name" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;">
 
-      <label for="email" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Your email</label>
-      <input type="email" id="email" name="_replyto" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;">
+  <label for="email" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Your email</label>
+  <input type="email" id="email" name="_replyto" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;">
 
-      <label for="message" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Message</label>
-      <textarea id="message" name="message" rows="4" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;"></textarea>
+  <label for="message" style="display:block; font-size:14px; color:#374151; margin-bottom:6px;">Message</label>
+  <textarea id="message" name="message" rows="4" required style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #D1D5DB; border-radius:6px; font-size:15px; font-family:'Inter',sans-serif;"></textarea>
 
-      <button type="submit" style="background:#4B0082; color:#fff; border:none; padding:12px 24px; border-radius:8px; font-size:15px; font-weight:600; font-family:'Poppins',sans-serif; cursor:pointer;">Send Message</button>
-    </form>
+  <button type="submit" id="submit-btn" style="background:#4B0082; color:#fff; border:none; padding:12px 24px; border-radius:8px; font-size:15px; font-weight:600; font-family:'Poppins',sans-serif; cursor:pointer;">Send Message</button>
+  <p id="form-status" style="display:none; margin-top:16px; font-size:15px; font-weight:600;"></p>
+</form>
+
+<script>
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
+  const btn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    }).then((response) => {
+      if (response.ok) {
+        form.reset();
+        form.querySelectorAll("input, textarea, button").forEach(el => el.style.display = "none");
+        status.style.display = "block";
+        status.style.color = "#4B0082";
+        status.textContent = "Thank you — your message has been sent. I'll get back to you soon.";
+      } else {
+        status.style.display = "block";
+        status.style.color = "#B91C1C";
+        status.textContent = "Something went wrong. Please try again or email me directly at omonize01@gmail.com.";
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    }).catch(() => {
+      status.style.display = "block";
+      status.style.color = "#B91C1C";
+      status.textContent = "Something went wrong. Please try again or email me directly at omonize01@gmail.com.";
+      btn.disabled = false;
+      btn.textContent = "Send Message";
+    });
+  });
+</script>
+
 
     <div class="badge-slot">FlyRank completion badge will be added here once the capstone is approved.</div>
     </main>
